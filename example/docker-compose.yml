@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  firestore-emulator:
+    image: getalma/gcp-firestore-emulator:latest
+
+  some-service:
+    image: python:3.8
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firestore-emulator:8086
+    depends_on:
+      - firestore-emulator
+    entrypoint:
+      - /bin/bash
