@@ -4,14 +4,22 @@ FROM	java:jre-alpine
 ENV	CLOUDSDK_CORE_DISABLE_PROMPTS 1
 ENV	HOST_PORT 8086
 
-RUN	apk add --no-cache curl bash python
+RUN	apk add --no-cache --quiet --no-progress \
+		curl \
+		bash \
+		python
 
 # Install Google Cloud SDK
-RUN	curl https://sdk.cloud.google.com | bash
+RUN	curl --output /tmp/install.sh https://sdk.cloud.google.com  && \
+	bash /tmp/install.sh --disable-prompts && \
+	rm -f /tmp/install.sh
 
 # Install the Firestore emulator
 RUN	/root/google-cloud-sdk/bin/gcloud config set disable_usage_reporting true && \
-	/root/google-cloud-sdk/bin/gcloud components install -q cloud-firestore-emulator beta
+	/root/google-cloud-sdk/bin/gcloud components install -q \
+		beta \
+		cloud-firestore-emulator && \
+	rm -rf /root/google-cloud-sdk/.install/.backup
 
 # Expose the default emulator port
 EXPOSE	8086

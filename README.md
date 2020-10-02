@@ -17,7 +17,7 @@ $ docker run \
 	--rm --tty --interactive \
 	--publish "8086:8086" \
 	--name "firestore_emulator" \
-	"alma/gcp-firestore-emulator:latest"
+	"getalma/gcp-firestore-emulator:latest"
 ```
 
 or using `docker-compose`:
